@@ -1,0 +1,5 @@
+site_name: deploy-application
+site_description: Deploy Application to Environment
+
+plugins:
+  - techdocs-core

@@ -4,6 +4,8 @@ metadata:
   name: deploy-application
   title: Deploy Application to Environment
   description: Request a Component deployment in an environment. Creates a PR that requires approval by PE.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
 spec:
   owner: platform-engineering
   type: template
