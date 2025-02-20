@@ -47,7 +47,7 @@ spec:
           kind: Application
           metadata:
             name: ${{ parameters.component | parseEntityRef | pick('name') }}
-            namespace: argocd
+            namespace: openshift-gitops
             labels:
               environment: ${{ parameters.environment }}
               component: ${{ parameters.component | parseEntityRef | pick('name') }}
@@ -59,7 +59,7 @@ spec:
               path: ${{ parameters.environment }}
             destination:
               server: https://kubernetes.default.svc
-              namespace:${{ parameters.component | parseEntityRef | pick('name') }}-${{ parameters.environment }}
+              namespace: ${{ parameters.component | parseEntityRef | pick('name') }}-${{ parameters.environment }}
             syncPolicy:
               syncOptions:
               - CreateNamespace=true
