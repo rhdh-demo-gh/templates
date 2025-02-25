@@ -71,7 +71,7 @@ spec:
         sourcePath: ./source
         collaborators:
           - team: ${{ parameters.owner | parseEntityRef | pick('name') }}
-            access: write
+            access: maintain
 
     - id: generateManifests
       name: Generate GitOps Manifests
@@ -95,7 +95,7 @@ spec:
         repoVisibility: public
         collaborators:
           - team: "rhdh-demo-gh/${{ parameters.owner | parseEntityRef | pick('name') }}"
-            access: write
+            access: maintain
 
     # This step is optional. If autodiscovery is enabled then it's not necessary
     # - id: register
