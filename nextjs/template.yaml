@@ -70,7 +70,7 @@ spec:
         defaultBranch: main
         sourcePath: ./source
         collaborators:
-          - team: rhdh-demo-gh/${{ parameters.owner | pick('name') }}
+          - team: "rhdh-demo-gh/${{ parameters.owner | parseEntityRef | pick('name') }}"
             access: write
 
     - id: generateManifests
@@ -94,7 +94,7 @@ spec:
         sourcePath: ./manifests
         repoVisibility: public
         collaborators:
-          - team: rhdh-demo-gh/${{ parameters.owner | pick('name') }}
+          - team: "rhdh-demo-gh/${{ parameters.owner | parseEntityRef | pick('name') }}"
             access: write
 
     # This step is optional. If autodiscovery is enabled then it's not necessary
