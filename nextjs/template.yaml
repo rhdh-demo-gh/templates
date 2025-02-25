@@ -35,7 +35,8 @@ spec:
           ui:options:
             allowArbitraryValues: false
             catalogFilter:
-              kind: [Group, User]
+              kind: Group
+              metadata.annotations.github.com/team-slug: { exists: true }
         system:
           title: System
           type: string
