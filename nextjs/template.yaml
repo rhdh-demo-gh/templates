@@ -70,7 +70,7 @@ spec:
         defaultBranch: main
         sourcePath: ./source
         collaborators:
-          - team: "rhdh-demo-gh/${{ parameters.owner | parseEntityRef | pick('name') }}"
+          - team: ${{ parameters.owner | parseEntityRef | pick('name') }}
             access: write
 
     - id: generateManifests
