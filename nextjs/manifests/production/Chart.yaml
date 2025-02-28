@@ -3,6 +3,6 @@ name: ${{ values.name }}
 description: Deploys a Next.js application using the standard Node.js Chart
 version: 0.1.0
 dependencies:
-  - name: nodejs-on-openshift
+  - name: openshift-deployment
     version: 0.1.0
     repository: https://rhdh-demo-gh.github.io/helm-charts/
