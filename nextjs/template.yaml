@@ -96,14 +96,15 @@ spec:
         collaborators:
           - team: "rhdh-demo-gh/${{ parameters.owner | parseEntityRef | pick('name') }}"
             access: maintain
-
-    # This step is optional. If autodiscovery is enabled then it's not necessary
-    # - id: register
-    #   name: Register the Component in the Catalog
-    #   action: catalog:register
-    #   input:
-    #     repoContentsUrl: ${{ steps.publishSource.output.repoContentsUrl }}
-    #     catalogInfoPath: /catalog-info.yaml
+    
+    # This step is optional. If autodiscovery is enabled then it's not strictly necessary.
+    # Without it the Component won't show in the Catalog until the GitHub provider syncs.
+    - id: register
+      name: Register the Component in the Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publishSource.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
 
   output:
     links:
