@@ -35,7 +35,8 @@ spec:
           ui:options:
             allowArbitraryValues: false
             catalogFilter:
-              kind: [Group, User]
+              kind: Group
+              metadata.annotations.github.com/team-slug: { exists: true }
         system:
           title: System
           type: string
@@ -68,6 +69,9 @@ spec:
         repoUrl: github.com?owner=rhdh-demo-gh&repo=${{ parameters.name }}
         defaultBranch: main
         sourcePath: ./source
+        collaborators:
+          - team: ${{ parameters.owner | parseEntityRef | pick('name') }}
+            access: maintain
 
     - id: generateManifests
       name: Generate GitOps Manifests
@@ -89,14 +93,18 @@ spec:
         defaultBranch: main
         sourcePath: ./manifests
         repoVisibility: public
-
-    # This step is optional. If autodiscovery is enabled then it's not necessary
-    # - id: register
-    #   name: Register the Component in the Catalog
-    #   action: catalog:register
-    #   input:
-    #     repoContentsUrl: ${{ steps.publishSource.output.repoContentsUrl }}
-    #     catalogInfoPath: /catalog-info.yaml
+        collaborators:
+          - team: "rhdh-demo-gh/${{ parameters.owner | parseEntityRef | pick('name') }}"
+            access: maintain
+    
+    # This step is optional. If autodiscovery is enabled then it's not strictly necessary.
+    # Without it the Component won't show in the Catalog until the GitHub provider syncs.
+    - id: register
+      name: Register the Component in the Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publishSource.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
 
   output:
     links:
