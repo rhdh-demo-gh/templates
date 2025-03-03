@@ -1,0 +1,5 @@
+site_name: nextjs-starter
+site_description: Next.js Starter
+
+plugins:
+  - techdocs-core
