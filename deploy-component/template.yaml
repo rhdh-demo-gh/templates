@@ -47,7 +47,7 @@ spec:
           kind: Application
           metadata:
             name: ${{ parameters.component | parseEntityRef | pick('name') }}
-            namespace: rhdh-gitops
+            namespace: janus-argocd
             labels:
               environment: ${{ parameters.environment }}
               component: ${{ parameters.component | parseEntityRef | pick('name') }}
