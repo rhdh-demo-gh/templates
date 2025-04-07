@@ -1,6 +1,6 @@
-# Next.js Starter
+# ${{ values.name }}
 
-Welcome to your new Next.js project! 
+This the the ${{ values.name }}, based on Next.js!
 
 ## Developing Locally
 
