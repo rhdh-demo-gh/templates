@@ -1,5 +1,5 @@
-site_name: nextjs-starter
-site_description: Next.js Starter
+site_name: ${{ values.name }}
+site_description: ${{ values.name }}
 
 plugins:
   - techdocs-core
