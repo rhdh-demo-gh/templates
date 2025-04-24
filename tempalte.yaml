@@ -1,0 +1,44 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: request-openshift-namespace
+  title: Request OpenShift Namespace
+  description: Opens a request for a new namespace on OpenShift. Uses t-shirt sizing for resource requests.
+  tags:
+    - openshift
+    - task
+spec:
+  owner: platform-engineering
+  type: template
+
+  parameters:
+    - title: Name
+      required:
+        - name
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name for the Component, and resulting Git repository
+          maxLength: 50
+          pattern: '^([a-zA-Z][a-zA-Z0-9]*)(-[a-zA-Z0-9]+)*$'
+          ui:autofocus: true
+  steps:
+    - id: generateSource
+      name: Generate Next.js Application
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: ./source
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+          description: ${{ parameters.description }}
+
+  # output:
+  #   links:
+  #     - title: View the Source Repository
+  #       url: ${{ steps.publishSource.output.remoteUrl }}
+  #     - title: View the Manifests Repository
+  #       url: ${{ steps.publishManifests.output.remoteUrl }}
