@@ -6,6 +6,9 @@ metadata:
   description: Request a Component deployment in an environment. Creates a PR that requires approval by PE.
   annotations:
     backstage.io/techdocs-ref: dir:.
+  tags:
+    - openshift
+    - task
 spec:
   owner: platform-engineering
   type: template
