@@ -40,7 +40,7 @@ spec:
             allowArbitraryValues: false
             catalogFilter:
               kind: Group
-              metadata.annotations.github.com/team-slug: { exists: true }
+              # metadata.annotations.github.com/team-slug: { exists: true }
         system:
           title: System
           type: string
