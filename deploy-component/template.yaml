@@ -65,7 +65,7 @@ spec:
               namespace: ${{ parameters.component | parseEntityRef | pick('name') }}-${{ parameters.environment }}
             syncPolicy:
               syncOptions:
-              - CreateNamespace=true
+                - CreateNamespace=true
               automated:
                 prune: true
                 selfHeal: true
