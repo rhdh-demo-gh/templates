@@ -11,8 +11,8 @@ metadata:
     github.com/project-slug: rhdh-demo-gh/${{ values.name }}
 spec:
   type: website
-  {% if variable %}
+  {%- if values.system %}
   system: ${{ values.system }}
-  {% endif %}
+  {%- endif %}
   lifecycle: dev
   owner: ${{ values.owner }}
