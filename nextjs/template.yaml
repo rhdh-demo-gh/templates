@@ -4,6 +4,9 @@ metadata:
   name: nextjs-openshift
   title: Next.js on OpenShift
   description: Bootstraps a Next.js application that can be deployed on OpenShift
+  metadata:
+    annotations:
+      team: frontend
   tags:
     - javascript
     - nextjs
