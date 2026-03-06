@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: Static Site - Jekyll on GitHub Pages
-  title: Next.js on OpenShift
+  name: jekyll-gh-pages
+  title: Static Site - Jekyll on GitHub Pages
   description: Bootstraps a Next.js application that can be deployed on OpenShift
   annotations:
     team: frontend
