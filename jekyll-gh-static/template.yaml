@@ -1,0 +1,120 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: Static Site - Jekyll on GitHub Pages
+  title: Next.js on OpenShift
+  description: Bootstraps a Next.js application that can be deployed on OpenShift
+  annotations:
+    team: frontend
+  tags:
+    - javascript
+    - nextjs
+    - nodejs
+spec:
+  owner: platform-engineering
+  type: template
+
+  parameters:
+    - title: Name and Owner(s)
+      required:
+        - name
+        - description
+        - owner
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name for the Component, and resulting Git repository
+          maxLength: 50
+          pattern: '^([a-zA-Z][a-zA-Z0-9]*)(-[a-zA-Z0-9]+)*$'
+          ui:autofocus: true
+        description:
+          title: Description
+          type: string
+          description: Description for the Component, and resulting Git repository
+          maxLength: 100
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the resulting Component
+          ui:field: OwnerPicker
+          ui:options:
+            allowArbitraryValues: false
+            catalogFilter:
+              kind: Group
+              # metadata.annotations.github.com/team-slug: { exists: true }
+        system:
+          title: System
+          type: string
+          description: System that the resulting Component belongs to
+          ui:field: EntityPicker
+          ui:options:
+            allowArbitraryValues: false
+            catalogFilter:
+              kind: System
+  steps:
+    - id: generateSource
+      name: Generate Next.js Application
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: ./source
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+          description: ${{ parameters.description }}
+
+    - id: publishSource
+      name: Create Source Code Repository
+      action: publish:github
+      input:
+        repoVisibility: public
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=rhdh-demo-gh&repo=${{ parameters.name }}
+        defaultBranch: main
+        sourcePath: ./source
+        collaborators:
+          - team: ${{ parameters.owner | parseEntityRef | pick('name') }}
+            access: maintain
+
+    - id: generateManifests
+      name: Generate GitOps Manifests
+      action: fetch:template
+      input:
+        targetPath: ./manifests
+        url: ./manifests
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+
+    - id: publishManifests
+      name: Create GitOps Manifests Repository
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=rhdh-demo-gh&repo=${{ parameters.name }}-manifests
+        defaultBranch: main
+        sourcePath: ./manifests
+        repoVisibility: public
+        collaborators:
+          - team: "rhdh-demo-gh/${{ parameters.owner | parseEntityRef | pick('name') }}"
+            access: maintain
+    
+    # This step is optional. If autodiscovery is enabled then it's not strictly necessary.
+    # Without it the Component won't show in the Catalog until the GitHub provider syncs.
+    - id: register
+      name: Register the Component in the Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publishSource.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: View the Source Repository
+        url: ${{ steps.publishSource.output.remoteUrl }}
+      - title: View the Manifests Repository
+        url: ${{ steps.publishManifests.output.remoteUrl }}
